@@ -4,11 +4,12 @@ import './index.css';
 
 import reportWebVitals from './reportWebVitals';
 import InventarioRoutes from "./Routes/InventarioRoutes";
+import LoginRoutes from "./Routes/LoginRoutes";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <InventarioRoutes />
+    <LoginRoutes />
   </React.StrictMode>
 );
 

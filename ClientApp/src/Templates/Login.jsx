@@ -1,8 +1,8 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
-import '/Login.css';
-import logo from '../Img/Logo.jpg';
-import Linea from "./Linea";
+import '../Components/Login.css';
+import logo from '../Components/Img/Logo.jpg';
+import Linea from '../Components/Linea'
 
 function Login(){
     return(
