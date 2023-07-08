@@ -1,0 +1,9 @@
+.contenedor{
+    width: 100%;
+}
+.boxUser{
+    position: absolute;
+    margin-top: 2%;
+    top: 15%;
+    left: 4%;
+}

@@ -1,0 +1,36 @@
+.contenedor{
+    width: 100%;
+}
+.imagen{
+    width: 100%;
+    height: 30%;
+}
+#logo{
+    margin-top: 1%;
+    margin-left: 42%;
+    height: 40px;
+    width: 15%;
+    display: flex;
+}
+h2{
+    text-align: center;
+}
+.imagenFondo{
+    margin-left: 35%;
+    width: 360px;
+    height: 298px;
+    background-image: url('../Img/imgFondo.jpg');
+    
+}
+input{
+    height: 20px;
+    margin-top: 15%;
+    margin-left: 24%;
+}
+button{
+    margin-left: 37%;
+    color: #084698;
+    font-family: 'arial';
+    font-size: 14px;
+    border: none;
+}
