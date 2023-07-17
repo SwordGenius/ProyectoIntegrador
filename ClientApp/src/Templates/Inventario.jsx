@@ -7,7 +7,7 @@ export default function Inventario(){
     return(
         <div>
             <h1>PruebaXD</h1>
-            <Formulario style={"show"}/>
+            <Formulario/>
         </div>
     )
 }

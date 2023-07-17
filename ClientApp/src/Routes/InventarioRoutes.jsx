@@ -1,10 +1,16 @@
-import      React from "react";
+import React from "react";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Error from "../Templates/Error";
 import Inventario from "../Templates/Inventario";
+import Formulario from "../Components/Formulario";
 
 export default function InventarioRoutes () {
-    const router = createBrowserRouter([
+    const router2 = createBrowserRouter([
+        {
+            path:"/",
+            element:<Formulario/>,
+            errorElement: <Error/>,
+        },
         {
             path:"/inventario",
             element:<Inventario/>,
@@ -12,6 +18,6 @@ export default function InventarioRoutes () {
         },
     ])
     return(
-       <RouterProvider router={router}/>
+       <RouterProvider router={router2}/>
     )
 }

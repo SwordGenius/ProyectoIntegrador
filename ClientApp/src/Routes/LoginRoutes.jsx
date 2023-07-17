@@ -1,10 +1,10 @@
 ﻿import      React from "react";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Error from "../Templates/Error";
-import Login from "../Templates/Inventario";
+import Login from "../Templates/Login";
 
 export default function LoginRoutes () {
-    const router = createBrowserRouter([
+    const router1 = createBrowserRouter([
         {
             path:"/",
             element:<Login/>,
@@ -12,6 +12,6 @@ export default function LoginRoutes () {
         },
     ])
     return(
-        <RouterProvider router={router}/>
+        <RouterProvider router={router1}/>
     )
 }

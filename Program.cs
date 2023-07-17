@@ -1,8 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using pruebaxd.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ProyectointegradorContext>(optionsBuilder =>
+    optionsBuilder.UseMySql(builder.Configuration.GetConnectionString("conexion"), Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql")));
+
 
 var app = builder.Build();
 
