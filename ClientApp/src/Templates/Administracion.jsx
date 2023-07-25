@@ -17,8 +17,8 @@ import Sp from "../assets/Sp.svg"
 import Inventory from "../assets/Inventory.svg"
 import Users from "../assets/Users.svg"
 import Money from "../assets/Money.svg"
-
-
+import ResponsiveAppBar from "../Components/Nav";
+import '../Styles/Administracion.css'
 
 const tiers = [
 
@@ -44,7 +44,7 @@ const tiers = [
     buttonVariant: "outlined",
   },
   {
-    title: "Inventario",
+    title: "Usuarios",
     price: "30",
     description: [
       // eslint-disable-next-line react/jsx-key
@@ -72,28 +72,17 @@ const tiers = [
 const defaultTheme = createTheme();
 
 export default function Pricing() {
+    const mover = () => {
+      window.location.href="/ventas";
+    }
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyles
         styles={{ ul: { margin: 50, padding: 20, listStyle: "none" } }}
       />
       <CssBaseline />
-      <AppBar
+      <ResponsiveAppBar></ResponsiveAppBar>
 
-        color="default"
-        elevation={0}
-        sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}`  }}
-      >
-        <Toolbar sx={{ flexWrap: "wrap" }}>
-          <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-          <img className="logo" id="logo" src={logo} alt="" />
-          </Typography>
-
-          <Button href="#" variant="outlined" sx={{ my: 5, mx: 1.5 }}>
-            Salir
-          </Button>
-        </Toolbar>
-      </AppBar>
       {/* Hero unit */}
       <Container
         disableGutters
@@ -163,7 +152,7 @@ export default function Pricing() {
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant}>
+                  <Button fullWidth variant={tier.buttonVariant} onClick={mover}>
                     {tier.buttonText}
                   </Button>
                 </CardActions>

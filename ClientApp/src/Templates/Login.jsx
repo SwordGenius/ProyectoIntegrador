@@ -10,7 +10,10 @@ import {useEffect, useRef, useState} from "react";
 import {useForm} from "react-hook-form";
 import {Navigate} from "react-router-dom";
 
+// TODO remove, this demo shouldn't need to reset the theme.
+
 const defaultTheme = createTheme();
+
 export default function Login() {
   const {register, formState: {errors}, handleSubmit} = useForm();
   const [user, setUser] = useState("");
@@ -30,7 +33,7 @@ export default function Login() {
     }
     return null;
   }
-  
+
   const validarLogin = () => {
     console.log(usuariosRef.current);
     for (const unUsuario of usuariosRef.current) {
@@ -45,73 +48,73 @@ export default function Login() {
     }
   }
   useEffect(() => {
-        listarUsuarios().then((datos) => {
-          usuariosRef.current = datos;
-        })
+    listarUsuarios().then((datos) => {
+      usuariosRef.current = datos;
+    })
   },[]);
 
   return (
-    <ThemeProvider theme={defaultTheme}>  
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 0,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <img id="logo" src={logo} alt="" className="logo"/>
-
-          <Typography component="h1" variant="h5">
-            Iniciar sesión
-          </Typography>
+      <ThemeProvider theme={defaultTheme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
           <Box
-            component="form"
-            onSubmit={handleSubmit(validarLogin)}
-            noValidate
-            sx={{ mt: 1 }}
+              sx={{
+                marginTop: 0,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="usuario"
-              label="Usuario"
-              name="user"
-              autoComplete="user"
-              autoFocus
-              {...register("user", {required: true})}
-                onChange={event => setUser(event.target.value)}
-              value={user}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Contraseña"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              {...register("password", {required: true})}
-                onChange={event => setPassword(event.target.value)}
-              value={password}
-            />
+            <img id="logo" src={logo} alt="" className="logo"/>
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={validarLogin}
+            <Typography component="h1" variant="h5">
+              Iniciar sesión
+            </Typography>
+            <Box
+                component="form"
+                onSubmit={handleSubmit(validarLogin)}
+                noValidate
+                sx={{ mt: 1 }}
             >
-              Ingresar
-            </Button>
+              <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="usuario"
+                  label="Usuario"
+                  name="user"
+                  autoComplete="user"
+                  autoFocus
+                  {...register("user", {required: true})}
+                  onChange={event => setUser(event.target.value)}
+                  value={user}
+              />
+              <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Contraseña"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  {...register("password", {required: true})}
+                  onChange={event => setPassword(event.target.value)}
+                  value={password}
+              />
+
+              <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={validarLogin}
+              >
+                Ingresar
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        </Container>
+      </ThemeProvider>
   );
 }

@@ -22,6 +22,7 @@ namespace pruebaxd.Controllers
 
         // GET: api/Ventas
         [HttpGet]
+        [Route("List")]
         public async Task<ActionResult<IEnumerable<Ventum>>> GetVenta()
         {
           if (_context.Venta == null)
@@ -32,7 +33,8 @@ namespace pruebaxd.Controllers
         }
 
         // GET: api/Ventas/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("Get/{id}")]
         public async Task<ActionResult<Ventum>> GetVentum(int id)
         {
           if (_context.Venta == null)
@@ -51,7 +53,8 @@ namespace pruebaxd.Controllers
 
         // PUT: api/Ventas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut]
+        [Route("update/{id}")]
         public async Task<IActionResult> PutVentum(int id, Ventum ventum)
         {
             if (id != ventum.Folio)
@@ -83,7 +86,8 @@ namespace pruebaxd.Controllers
         // POST: api/Ventas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Ventum>> PostVentum(Ventum ventum)
+        [Route("post")]
+        public async Task<ActionResult<Ventum>> PostVentum([FromBody] Ventum ventum)
         {
           if (_context.Venta == null)
           {
@@ -110,7 +114,8 @@ namespace pruebaxd.Controllers
         }
 
         // DELETE: api/Ventas/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("Delete/{id}")]
         public async Task<IActionResult> DeleteVentum(int id)
         {
             if (_context.Venta == null)

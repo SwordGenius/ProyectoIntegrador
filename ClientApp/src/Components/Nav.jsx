@@ -12,9 +12,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../assets/logo.png'
+import { Grid } from '@mui/material';
+import '../Styles/Nav.css'
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+const pages = ['Ventas', 'Inventario', 'Usuarios', 'Corte'];
+const settings = ['Logout'];
+
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -36,12 +40,14 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{
+      width:'100%'
+    }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <div className="imagen">
-                <img id="logo" src={logo} alt=""/>
-            </div>
+        <Grid container alignItems="flex-start">
+                <img id="logo" src={logo} alt="" className='login'/>
+            </Grid>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton

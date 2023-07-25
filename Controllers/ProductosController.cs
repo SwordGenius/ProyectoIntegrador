@@ -29,7 +29,8 @@ namespace pruebaxd.Controllers
           {
               return NotFound();
           }
-            return await _context.Productos.OrderByDescending(c => c.CodigoProducto).ToListAsync();
+          List<Producto> list = await _context.Productos.OrderByDescending(c => c.CodigoProducto).ToListAsync();
+          return StatusCode(StatusCodes.Status200OK, list);
         }
 
         // GET: api/Productos/5
@@ -55,10 +56,11 @@ namespace pruebaxd.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
         [Route("update/{id}")]
-        public async Task<IActionResult> PutProducto(string id, Producto producto)
+        public async Task<IActionResult> PutProducto(string id, [FromBody] Producto producto)
         {
             if (id != producto.CodigoProducto)
             {
+                Console.WriteLine("xd");
                 return BadRequest();
             }
 
@@ -87,7 +89,7 @@ namespace pruebaxd.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Route("post")]
-        public async Task<ActionResult<Producto>> PostProducto(Producto producto)
+        public async Task<ActionResult<Producto>> PostProducto([FromBody] Producto producto)
         {
           if (_context.Productos == null)
           {

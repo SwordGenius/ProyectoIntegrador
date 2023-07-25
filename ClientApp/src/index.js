@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 import InventarioRoutes from "./Routes/InventarioRoutes";
 import LoginRoutes from "./Routes/LoginRoutes";
 import Formulario from "./Components/Formulario";
+import Ventas from "./Templates/Ventas";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

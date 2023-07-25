@@ -1,91 +1,126 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import './Form.css';
 import {validarNum} from "./Validar";
+import {Form, FormFeedback, FormGroup, Input, Label} from "reactstrap";
 
-async function Formulario() {
-    const {register, formState: {errors}, handleSubmit} = useForm();
-    const [codigo, setCodigo] = useState("");
-    const [desc, setDesc] = useState("");
-    const [compra, setCompra] = useState(0);
-    const [venta, setVenta] = useState(0);
-    const [existencia, setExistencia] = useState(0);
-    const [minimo, setMinimo] = useState(0);
-    const onSubmit = (data) => {
-        console.log(data);
-        postProducto();
-    }
-    const validarMayor = () => {
-        return venta > compra;
-    }
-    const postProducto = async(event) =>
-    {
+const productoData = {
+    codigoProducto: "",
+    descripcion: "",
+    precioCompra: 0,
+    precioVenta: 0,
+    existencia: 0,
+    inventarioMin: 0,
+    venta: []
+}
+function Formulario(props) {
+    const [producto, setProducto] = useState(productoData);
+    const onSubmit = (event) => {
         event.preventDefault();
-        const response = await fetch("api/producto/Post", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json;charset=utf8'
-            },
-            body: JSON.stringify({codigo, desc, compra, venta, existencia, minimo})
-        })
-        if (response.ok){
-            console.log("xd")
+        if (props.modificar === true){
+            actualizarProducto();
+        }
+        else {
+            agregarProducto();
         }
     }
+    const agregarProducto = async () => {
+        const response = await fetch("api/productos/post", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;chartset=utf-8'
+            },
+            body: JSON.stringify(producto)
+        })
+        if (response.ok){
+            props.onClose();
+        }
+    }
+    const actualizarProducto = async () => {
+        const response = await fetch("api/productos/update/"+producto.codigoProducto ,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json;chartset=utf-8'
+                },
+                body: JSON.stringify(producto)
+        })
+        if (response.ok){
+        props.onClose();
+        }
+    }
+    const validarPrecios = () => {
+        return producto.precioCompra > producto.precioVenta;
+    }
+    useEffect(() => {
+        if (props.modificar === true){
+            setProducto(props.producto);
+        }
+    }, [])
     return (
         <div>
-            <h1>Agregar</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label>Código de producto</label>
-                    <input type={"text"} {...register("codigo", {required: true})}
-                           onChange={event => setCodigo(event.target.value)} />
+            <Form onSubmit={onSubmit}>
+                {!props.modificar? <FormGroup>
+                    <Label>Código de producto</Label>
+                    <Input type={"text"}
+                           name={"codigoProducto"}
+                           onChange={(e) => setProducto({...producto, [e.target.name] : e.target.value})}
+                           value={producto.codigoProducto}
+                           required={!!producto.codigoProducto.value}
+                    />
+                </FormGroup> : null}
+                <FormGroup>
+                    <Label>Descripción</Label>
+                    <Input type={"text"}
+                           name={"descripcion"}
+                           onChange={(e) => setProducto({...producto, [e.target.name] : e.target.value})}
+                           value={producto.descripcion}
+                           required={!!producto.descripcion.value}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label>Precio de compra</Label>
+                    <Input type={"text"} 
+                           name={"precioCompra"}
+                           onChange={(e) => setProducto({...producto, [e.target.name] : parseFloat(e.target.value)? parseFloat(e.target.value) : 0})}
+                           value={producto.precioCompra}
+                           required={!!producto.precioCompra.value}
+                           invalid={validarPrecios()}
+                    />
+                    <FormFeedback>
+                        El precio de compra debe ser menor al precio de venta
+                    </FormFeedback>
+                </FormGroup>
+                <FormGroup>
+                    <Label>Precio de venta</Label>
+                    <Input type={"text"}
+                           name={"precioVenta"}
+                           onChange={(e) => setProducto({...producto, [e.target.name] : parseFloat(e.target.value)? parseFloat(e.target.value) : 0})}
+                           value={producto.precioVenta}
+                           required={!!producto.precioVenta.value}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label>Existencia</Label>
+                    <Input type={"text"} 
+                           name={"existencia"}
+                           onChange={(e) => setProducto({...producto, [e.target.name] : parseInt(e.target.value)? parseInt(e.target.value) : 0})}
+                           value={producto.existencia}
+                           required={!!producto.existencia.value}
+                    />
 
-                </div>
-                <div>
-                    <label>Descripción</label>
-                    <input type={"text"} {...register("desc", {required: true})}
-                           onChange={event => setDesc(event.target.value)} />
-
-                </div>
-                <div>
-                    <label>Precio de compra</label>
-                    <input type={"text"} {...register("compra", {required: true, validate: validarMayor})}
-                           onChange={event => setCompra(parseFloat(event.target.value))} />
-                    {errors.compra && <p className={"errorPhrase"}>Precio de compra debe ser menor</p>}
-                </div>
-                <div>
-                    <label>Precio de venta</label>
-                    <input type={"text"} {...register("venta", {required: true, validate: validarMayor})}
-                           onChange={event => setVenta(parseFloat(event.target.value))} />
-                    {errors.venta && <p className={"errorPhrase"}>Precio de venta debe ser mayor</p>}
-                </div>
-                <div>
-                    <label>Existencia</label>
-                    <input type={"text"} {...register("existencia", {required: true, validate: validarNum})}
-                           onChange={event => setExistencia(parseInt(event.target.value))} />
-
-                    {errors.existencia && <p className={"errorPhrase"}>Ingrese un valor valido</p>}
-                </div>
-                <div>
-                    <label>Inventario mínimo</label>
-                    <input type={"text"} {...register("minimo", {required: true, validate: validarNum})}
-                           onChange={event => setMinimo(parseInt(event.target.value))} />
-                    {errors.minimo && <p className={"errorPhrase"}>Ingrese un valor valido</p>}
-                </div>
-                <input type={"submit"} value={"Agregar"}/>
-                {errors.codigo?.type === "required" && <p className={"errorPhrase"}>El campo código es obligatiorio</p>}
-                {errors.desc?.type === "required" &&
-                    <p className={"errorPhrase"}>El campo descripción es obligatiorio</p>}
-                {errors.compra?.type === "required" &&
-                    <p className={"errorPhrase"}>El campo precio de compra es obligatiorio</p>}
-                {errors.venta?.type === "required" &&
-                    <p className={"errorPhrase"}>El campo precio de venta es obligatiorio</p>}
-                {errors.existencia?.type === "required" &&
-                    <p className={"errorPhrase"}>El campo existencia es obligatiorio</p>}
-                {errors.minimo?.type === "required" &&
-                    <p className={"errorPhrase"}>El campo inventario minimo es obligatiorio</p>}
-            </form>
+                </FormGroup>
+                <FormGroup>
+                    <Label>Inventario mínimo</Label>
+                    <Input type={"text"} 
+                           name={"inventarioMin"}
+                           onChange={(e) => setProducto({...producto, [e.target.name] : parseInt(e.target.value)? parseInt(e.target.value) : 0})}
+                           value={producto.inventarioMin}
+                           required={!!producto.inventarioMin.value}
+                    />
+                </FormGroup>
+                <Input className={"agregar"} type={"submit"} value={"Guardar"}/>
+            </Form>
         </div>
     )
 }
